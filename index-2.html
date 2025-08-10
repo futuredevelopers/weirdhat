@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote for Your Team!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('https://64.media.tumblr.com/f35551b8a5aeccec888c9ca5c91128a5/a8d5e3cb6102e78b-19/s2048x3072_c6875,0,77031,78750/7fafb43769d422c5149d48c21ed47bfb13cdce81.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 2rem 1rem;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl text-center mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">The Ultimate Summer Love Triangle: Belly's Choice!</h2>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Ah, Cousins Beach. The sun, the sand, and a love story that has captivated hearts everywhere. For years, Belly Conklin's summers have revolved around the Fisher brothers, Jeremiah and Conrad. One offers sunshine and laughter, a constant source of joy and unwavering devotion. The other, a brooding intensity, a deep, unspoken connection that hints at a love story written in the stars.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Belly finds herself caught between two worlds, two brothers, and two very different kinds of love. Is it the comforting warmth of a best friend, or the electrifying pull of a first love? Every fan has an opinion, every heart leans one way or the other.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+            Now, it's your turn to weigh in. Below, you can cast your vote and see which team is leading in this timeless romantic saga. Let your voice be heard in the greatest debate of the summer!
+        </p>
+    </div>
+
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md text-center mb-8">
+        <h1 class="text-4xl font-bold mb-6 text-gray-800">Vote for Your Team!</h1>
+
+        <div id="loading-message" class="text-gray-600 mb-4">Initializing application...</div>
+        <div class="flex justify-around items-center mb-8 space-x-4">
+            <div class="flex flex-col items-center">
+                <span class="text-6xl font-extrabold text-blue-600" id="jeremiah-votes">0</span>
+                <span class="text-lg font-semibold text-gray-600">Team Jeremiah</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-6xl font-extrabold text-red-600" id="conrad-votes">0</span>
+                <span class="text-lg font-semibold text-gray-600">Team Conrad</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col space-y-4 mb-6">
+            <button id="vote-jeremiah-btn"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-md" disabled>
+                Vote Team Jeremiah
+            </button>
+            <button id="vote-conrad-btn"
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg text-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-md" disabled>
+                Vote Team Conrad
+            </button>
+        </div>
+
+        <p id="message" class="text-lg text-gray-700 font-medium mb-4"></p>
+
+        <button id="reset-votes-btn"
+                class="mt-4 text-sm text-gray-500 hover:text-gray-700 underline transition duration-200" disabled>
+            Reset Votes
+        </button>
+    </div>
+
+    <div style="text-align: center; margin: 20px 0;">
+        <button 
+          onclick="window.location.href='https://projectlog-lab.github.io/TeamConrad-or-TeamJeremiah/'"
+          style="background-color: #10b981; color: white; padding: 12px 32px; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">
+          Take the Quiz
+        </button>
+      </div>
+
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl text-center mt-8">
+        <h2 class="text-3xl font-bold mb-6 text-gray-800">Join the Discussion!</h2>
+        <p class="text-gray-700 leading-relaxed mb-4">
+            Share your thoughts, theories, and why you're rooting for your team!
+        </p>
+
+        <div class="mb-6">
+            <textarea id="comment-input"
+                      class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
+                      rows="3"
+                      placeholder="Type your comment here..." disabled></textarea>
+            <button id="submit-comment-btn"
+                    class="mt-3 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md" disabled>
+                Submit Comment
+            </button>
+        </div>
+
+        <div id="comments-list" class="text-left space-y-4 max-h-96 overflow-y-auto p-2 border border-gray-200 rounded-lg bg-gray-50">
+            <p class="text-gray-500 text-center">No comments yet. Be the first to share your thoughts!</p>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <p id="modal-message"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, runTransaction, onSnapshot, collection, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        const YOUR_FIREBASE_PROJECT_ID = "voteforconnieorjere";
+        const YOUR_FIREBASE_CONFIG = {
+            // This is the CORRECTED API key
+            apiKey: "AIzaSyB08UOHeorjfJl5ntchI8tq47GxU2hJVYk",
+            authDomain: "voteforconnieorjere.firebaseapp.com",
+            projectId: "voteforconnieorjere",
+            storageBucket: "voteforconnieorjere.firebasestorage.app",
+            messagingSenderId: "62779421954",
+            appId: "1:62779421954:web:1ae125204365bac0347e1b",
+            measurementId: "G-PJSE4FL81M"
+        };
+
+        const appId = YOUR_FIREBASE_PROJECT_ID;
+        const firebaseConfig = YOUR_FIREBASE_CONFIG;
+
+        console.log("App Start: Initializing Firebase configuration...");
+        console.log("Firebase Config:", firebaseConfig);
+
+        let app;
+        let db;
+        let auth;
+        let currentUserId = null;
+        let isAuthReady = false;
+        let userVoteRecordRef = null;
+
+        function setAppReadyState(ready) {
+            isAuthReady = ready;
+            console.log(`Application readiness state changed: isAuthReady = ${isAuthReady}`);
+            if (ready) {
+                loadingMessage.textContent = "Application is Ready!";
+                resetVotesBtn.disabled = false;
+                resetVotesBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                console.log("App ready: Reset button enabled.");
+
+                commentInput.disabled = false;
+                submitCommentBtn.disabled = false;
+                commentInput.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitCommentBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                checkUserVoteStatus();
+            } else {
+                loadingMessage.textContent = "Initializing application...";
+                voteJeremiahBtn.disabled = true;
+                voteConradBtn.disabled = true;
+                resetVotesBtn.disabled = true;
+                commentInput.disabled = true;
+                submitCommentBtn.disabled = true;
+
+                voteJeremiahBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                voteConradBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                resetVotesBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                commentInput.classList.add('opacity-50', 'cursor-not-allowed');
+                submitCommentBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                console.log("App not ready: All buttons disabled.");
+            }
+        }
+
+        if (Object.keys(firebaseConfig).length > 0 && firebaseConfig.projectId && firebaseConfig.apiKey) {
+            try {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                console.log("Firebase app, Firestore, and Auth services initialized successfully.");
+
+                if (!auth) {
+                    throw new Error("Firebase Auth object could not be initialized. Check Firebase Authentication setup in console.");
+                }
+            } catch (error) {
+                console.error("Critical Error: Firebase services failed to initialize:", error);
+                loadingMessage.textContent = "Initialization failed. Check console for errors.";
+                setAppReadyState(false);
+                app = null; db = null; auth = null;
+            }
+        } else {
+            console.error("Critical Error: Firebase config is incomplete or missing.");
+            loadingMessage.textContent = "Firebase configuration error. Votes will not be saved.";
+            setAppReadyState(false);
+            app = null; db = null; auth = null;
+        }
+
+        const jeremiahVotesSpan = document.getElementById('jeremiah-votes');
+        const conradVotesSpan = document.getElementById('conrad-votes');
+        const voteJeremiahBtn = document.getElementById('vote-jeremiah-btn');
+        const voteConradBtn = document.getElementById('vote-conrad-btn');
+        const messagePara = document.getElementById('message');
+        const resetVotesBtn = document.getElementById('reset-votes-btn');
+        const loadingMessage = document.getElementById('loading-message');
+        const commentInput = document.getElementById('comment-input');
+        const submitCommentBtn = document.getElementById('submit-comment-btn');
+        const commentsList = document.getElementById('comments-list');
+
+        let hasVoted = false;
+        let userCurrentVote = null;
+
+        const modal = document.getElementById('myModal');
+        const modalMessage = document.getElementById('modal-message');
+
+        function showModal(message) {
+            modalMessage.textContent = message;
+            modal.style.display = 'flex';
+        }
+
+        window.closeModal = function() {
+            modal.style.display = 'none';
+        }
+
+        function updateDisplay(jeremiahCount, conradCount) {
+            jeremiahVotesSpan.textContent = jeremiahCount;
+            conradVotesSpan.textContent = conradCount;
+        }
+
+        function disableVotingButtons() {
+            voteJeremiahBtn.disabled = true;
+            voteConradBtn.disabled = true;
+            voteJeremiahBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            voteConradBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+
+        function enableVotingButtons() {
+            voteJeremiahBtn.disabled = false;
+            voteConradBtn.disabled = false;
+            voteJeremiahBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            voteConradBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        const globalVotesRef = db ? doc(collection(db, `artifacts/${appId}/public/data/global_votes`), 'current_tally') : null;
+        const commentsCollectionRef = db ? collection(db, `artifacts/${appId}/public/data/comments`) : null;
+        console.log("globalVotesRef initialized:", globalVotesRef);
+        console.log("commentsCollectionRef initialized:", commentsCollectionRef);
+
+        async function checkUserVoteStatus() {
+            if (!currentUserId || !userVoteRecordRef) {
+                console.warn("Cannot check user vote status: currentUserId or userVoteRecordRef is null.");
+                hasVoted = false;
+                userCurrentVote = null;
+                enableVotingButtons();
+                messagePara.textContent = "Could not retrieve your vote status. Please try again.";
+                return;
+            }
+
+            try {
+                const docSnap = await getDoc(userVoteRecordRef);
+                if (docSnap.exists() && docSnap.data() && docSnap.data().votedFor) {
+                    hasVoted = true;
+                    userCurrentVote = docSnap.data().votedFor;
+                    disableVotingButtons();
+                    messagePara.textContent = `You have already voted for Team ${userCurrentVote.charAt(0).toUpperCase() + userCurrentVote.slice(1)}!`;
+                    console.log(`User ${currentUserId} has already voted for: ${userCurrentVote}`);
+                } else {
+                    hasVoted = false;
+                    userCurrentVote = null;
+                    enableVotingButtons();
+                    messagePara.textContent = "";
+                    console.log(`User ${currentUserId} has not voted yet.`);
+                }
+            } catch (error) {
+                console.error("Error checking user vote status:", error);
+                hasVoted = false;
+                userCurrentVote = null;
+                enableVotingButtons();
+                messagePara.textContent = "Could not retrieve your vote status. Please try again.";
+            }
+        }
+
+        async function voteTeam(teamName) {
+            console.log(`voteTeam called. isAuthReady: ${isAuthReady}, globalVotesRef: ${globalVotesRef}, userVoteRecordRef: ${userVoteRecordRef}`);
+            if (!isAuthReady || !globalVotesRef || !userVoteRecordRef) {
+                showModal("Application is not ready. Please wait for initialization to complete.");
+                return;
+            }
+
+            if (hasVoted) {
+                showModal(`You have already voted for Team ${userCurrentVote.charAt(0).toUpperCase() + userCurrentVote.slice(1)}! You can reset your vote if you wish.`);
+                return;
+            }
+
+            loadingMessage.textContent = "Casting vote...";
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const globalTallyDoc = await transaction.get(globalVotesRef);
+                    let currentJeremiahVotes = 0;
+                    let currentConradVotes = 0;
+
+                    if (globalTallyDoc.exists()) {
+                        const data = globalTallyDoc.data();
+                        currentJeremiahVotes = data.jeremiah || 0;
+                        currentConradVotes = data.conrad || 0;
+                    } else {
+                        transaction.set(globalVotesRef, { jeremiah: 0, conrad: 0 });
+                    }
+
+                    const userVoteDoc = await transaction.get(userVoteRecordRef);
+                    if (userVoteDoc.exists() && userVoteDoc.data() && userVoteDoc.data().votedFor) {
+                        throw new Error("User already voted (transaction abort).");
+                    }
+
+                    if (teamName === 'jeremiah') {
+                        currentJeremiahVotes++;
+                    } else if (teamName === 'conrad') {
+                        currentConradVotes++;
+                    }
+                    transaction.update(globalVotesRef, { jeremiah: currentJeremiahVotes, conrad: currentConradVotes });
+                    transaction.set(userVoteRecordRef, { votedFor: teamName });
+
+                    console.log(`Vote transaction: User ${currentUserId} voted for ${teamName}. New global counts: J=${currentJeremiahVotes}, C=${currentConradVotes}`);
+                });
+
+                hasVoted = true;
+                userCurrentVote = teamName;
+                disableVotingButtons();
+                messagePara.textContent = `Thanks for voting Team ${teamName.charAt(0).toUpperCase() + teamName.slice(1)}!`;
+                loadingMessage.textContent = "";
+                console.log("Vote successful.");
+            } catch (e) {
+                if (e.message === "User already voted (transaction abort).") {
+                    checkUserVoteStatus();
+                    showModal(`You have already voted for Team ${userCurrentVote ? userCurrentVote.charAt(0).toUpperCase() + userCurrentVote.slice(1) : 'a team'}! You can reset your vote if you wish.`);
+                    console.warn("Vote attempt failed: User already voted.");
+                } else {
+                    console.error("Vote transaction failed: ", e);
+                    showModal("Error casting vote. Please try again. (Check console for details)");
+                }
+                loadingMessage.textContent = "";
+            }
+        }
+
+        async function resetVotes() {
+            console.log(`resetVotes called. isAuthReady: ${isAuthReady}, globalVotesRef: ${globalVotesRef}, userVoteRecordRef: ${userVoteRecordRef}`);
+            if (!isAuthReady || !globalVotesRef || !userVoteRecordRef) {
+                showModal("Application is not ready. Please wait for initialization to complete.");
+                return;
+            }
+
+            if (!hasVoted) {
+                showModal("You haven't cast a vote yet to reset!");
+                return;
+            }
+
+            showModal("Are you sure you want to reset your vote? This will remove your vote from the total.");
+            const modalContent = modal.querySelector('.modal-content');
+            let confirmButton = modalContent.querySelector('#confirm-reset-btn');
+            if (!confirmButton) {
+                confirmButton = document.createElement('button');
+                confirmButton.id = 'confirm-reset-btn';
+                confirmButton.textContent = 'Confirm Reset';
+                confirmButton.className = 'mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out';
+                modalContent.appendChild(confirmButton);
+            }
+
+            confirmButton.onclick = null;
+            confirmButton.onclick = async () => {
+                console.log("Confirm Reset button clicked.");
+                closeModal();
+                loadingMessage.textContent = "Resetting your vote...";
+                try {
+                    await runTransaction(db, async (transaction) => {
+                        const userVoteDoc = await transaction.get(userVoteRecordRef);
+                        if (!userVoteDoc.exists() || !userVoteDoc.data() || !userVoteDoc.data().votedFor) {
+                            throw new Error("No vote found for user to reset (transaction abort).");
+                        }
+                        const votedForTeam = userVoteDoc.data().votedFor;
+                        console.log(`User previously voted for: ${votedForTeam}`);
+
+                        const globalTallyDoc = await transaction.get(globalVotesRef);
+                        let currentJeremiahVotes = globalTallyDoc.exists() ? (globalTallyDoc.data().jeremiah || 0) : 0;
+                        let currentConradVotes = globalTallyDoc.exists() ? (globalTallyDoc.data().conrad || 0) : 0;
+
+                        if (votedForTeam === 'jeremiah') {
+                            currentJeremiahVotes = Math.max(0, currentJeremiahVotes - 1);
+                        } else if (votedForTeam === 'conrad') {
+                            currentConradVotes = Math.max(0, currentConradVotes - 1);
+                        }
+                        transaction.update(globalVotesRef, { jeremiah: currentJeremiahVotes, conrad: currentConradVotes });
+                        console.log(`Global tally updated: J=${currentJeremiahVotes}, C=${currentConradVotes}`);
+
+                        transaction.update(userVoteRecordRef, { votedFor: null });
+                        console.log(`User's vote record cleared.`);
+                    });
+
+                    hasVoted = false;
+                    userCurrentVote = null;
+                    enableVotingButtons();
+                    messagePara.textContent = "Your vote has been reset. You can vote again!";
+                    loadingMessage.textContent = "";
+                    console.log("Personal vote reset successful.");
+                } catch (e) {
+                    if (e.message === "No vote found for user to reset (transaction abort).") {
+                        showModal("You haven't cast a vote yet to reset!");
+                        console.warn("Reset attempt failed: No vote found for user.");
+                    } else {
+                        console.error("Error resetting votes (Firestore transaction failed): ", e);
+                        showModal("Error resetting your vote. Please try again. (Check console for details)");
+                    }
+                    loadingMessage.textContent = "";
+                }
+            };
+        }
+
+        async function submitComment() {
+            if (!isAuthReady || !commentsCollectionRef) {
+                showModal("Application is not ready to submit comments. Please wait.");
+                return;
+            }
+
+            const commentText = commentInput.value.trim();
+            if (commentText === "") {
+                showModal("Please enter a comment before submitting.");
+                return;
+            }
+
+            if (!currentUserId) {
+                showModal("Authentication in progress. Please wait a moment before commenting.");
+                return;
+            }
+
+            try {
+                await addDoc(commentsCollectionRef, {
+                    comment: commentText,
+                    timestamp: serverTimestamp()
+                });
+                commentInput.value = "";
+                console.log("Comment submitted successfully.");
+            } catch (error) {
+                console.error("Error submitting comment:", error);
+                showModal("Failed to submit comment. Please try again.");
+            }
+        }
+
+        function displayComments(comments) {
+            commentsList.innerHTML = '';
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<p class="text-gray-500 text-center">No comments yet. Be the first to share your thoughts!</p>';
+                return;
+            }
+
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const imageRegex = /\.(jpeg|jpg|gif|png|webp|svg)$/i;
+
+            comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'bg-white p-3 rounded-lg shadow-sm mb-2';
+                const date = comment.timestamp ? new Date(comment.timestamp.seconds * 1000).toLocaleString() : 'Just now';
+
+                let processedComment = comment.comment;
+
+                processedComment = processedComment.replace(urlRegex, (url) => {
+                    if (imageRegex.test(url)) {
+                        return `<img src="${url}" alt="User submitted image" class="max-w-full h-auto rounded-lg my-2">`;
+                    } else {
+                        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${url}</a>`;
+                    }
+                });
+
+                commentElement.innerHTML = `
+                    <p class="text-sm text-gray-600 font-semibold mb-1">Anonymous <span class="text-gray-400 font-normal text-xs ml-2">${date}</span></p>
+                    <p class="text-gray-800 break-words">${processedComment}</p>
+                `;
+                commentsList.appendChild(commentElement);
+            });
+            commentsList.scrollTop = commentsList.scrollHeight;
+        }
+
+        voteJeremiahBtn.addEventListener('click', () => voteTeam('jeremiah'));
+        voteConradBtn.addEventListener('click', () => voteTeam('conrad'));
+        resetVotesBtn.addEventListener('click', resetVotes);
+        submitCommentBtn.addEventListener('click', submitComment);
+
+        if (auth && db) {
+            onAuthStateChanged(auth, async (user) => {
+                console.log("onAuthStateChanged fired. User:", user);
+                if (user) {
+                    currentUserId = user.uid;
+                    userVoteRecordRef = doc(collection(db, `artifacts/${appId}/users/${currentUserId}/user_data`), 'vote_record');
+                    console.log("User authenticated. User ID:", currentUserId);
+                    console.log("User vote record ref:", userVoteRecordRef.path);
+
+                    onSnapshot(globalVotesRef, (docSnap) => {
+                        console.log("Firestore global votes snapshot received.");
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            updateDisplay(data.jeremiah || 0, data.conrad || 0);
+                            console.log("Global Votes data:", data);
+                        } else {
+                            console.log("Global votes document does not exist. Initializing with 0 votes.");
+                            setDoc(globalVotesRef, { jeremiah: 0, conrad: 0 })
+                                .then(() => updateDisplay(0, 0))
+                                .catch(e => console.error("Error initializing global votes document:", e));
+                        }
+                        setAppReadyState(true);
+                        console.log("App ready state set to TRUE after Firestore global snapshot.");
+                    }, (error) => {
+                        console.error("Error listening to global votes:", error);
+                        loadingMessage.textContent = "Error loading votes.";
+                        showModal("Failed to load real-time votes. Please check your connection.");
+                        setAppReadyState(false);
+                    });
+
+                    const q = query(commentsCollectionRef, orderBy('timestamp', 'desc'));
+                    onSnapshot(q, (snapshot) => {
+                        const comments = [];
+                        snapshot.forEach(doc => {
+                            comments.push(doc.data());
+                        });
+                        displayComments(comments);
+                        console.log("Comments snapshot received. Total comments:", comments.length);
+                    }, (error) => {
+                        console.error("Error listening to comments:", error);
+                    });
+                } else {
+                    console.log("No user signed in. Attempting anonymous sign-in...");
+                    try {
+                        const anonUser = await signInAnonymously(auth);
+                        currentUserId = anonUser.user.uid;
+                        userVoteRecordRef = doc(collection(db, `artifacts/${appId}/users/${currentUserId}/user_data`), 'vote_record');
+                        console.log("Anonymous user signed in. User ID:", currentUserId);
+                        console.log("User vote record ref:", userVoteRecordRef.path);
+                    } catch (error) {
+                        console.error("Anonymous sign-in failed: ", error);
+                        loadingMessage.textContent = "Authentication failed. Votes will not be saved.";
+                        showModal("Could not authenticate. Voting functionality is limited.");
+                        setAppReadyState(false);
+                    }
+                }
+            });
+        } else {
+            console.error("Firebase 'auth' or 'db' objects are not initialized. Voting functionality disabled.");
+            setAppReadyState(false);
+        }
+    </script>
+</body>
+</html>
