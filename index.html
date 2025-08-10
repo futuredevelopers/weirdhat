@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vote for Your Team!</title>
+    <title>Vote for Your Team & Take the Quiz!</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -60,34 +60,85 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Quiz Specific Styles */
+        #quiz-container {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #quiz-container .quiz-content {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            color: #fff;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .quiz-close-button {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .option-btn {
+            width: 80%;
+            margin: 10px auto;
+            background-color: #fff0f5;
+            color: #000;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background-color: #ff69b4;
+        }
     </style>
 </head>
-<body>
-    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl text-center mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-800">The Ultimate Summer Love Triangle: Belly's Choice!</h2>
-        <p class="text-gray-700 leading-relaxed mb-4">
+<body class="p-2 sm:p-4 md:p-8">
+    <div class="bg-gray-900/70 p-4 sm:p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-2xl text-center mb-8 text-white">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">The Ultimate Summer Love Triangle: Belly's Choice!</h2>
+        <p class="text-sm sm:text-base text-gray-200 leading-relaxed mb-4">
             Ah, Cousins Beach. The sun, the sand, and a love story that has captivated hearts everywhere. For years, Belly Conklin's summers have revolved around the Fisher brothers, Jeremiah and Conrad. One offers sunshine and laughter, a constant source of joy and unwavering devotion. The other, a brooding intensity, a deep, unspoken connection that hints at a love story written in the stars.
         </p>
-        <p class="text-gray-700 leading-relaxed mb-4">
+        <p class="text-sm sm:text-base text-gray-200 leading-relaxed mb-4">
             Belly finds herself caught between two worlds, two brothers, and two very different kinds of love. Is it the comforting warmth of a best friend, or the electrifying pull of a first love? Every fan has an opinion, every heart leans one way or the other.
         </p>
-        <p class="text-gray-700 leading-relaxed">
+        <p class="text-sm sm:text-base text-gray-200 leading-relaxed">
             Now, it's your turn to weigh in. Below, you can cast your vote and see which team is leading in this timeless romantic saga. Let your voice be heard in the greatest debate of the summer!
         </p>
     </div>
 
-    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md text-center mb-8">
-        <h1 class="text-4xl font-bold mb-6 text-gray-800">Vote for Your Team!</h1>
+    <div class="bg-gray-900/70 p-4 sm:p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-md text-center mb-8 text-white">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-6">Vote for Your Team!</h1>
 
-        <div id="loading-message" class="text-gray-600 mb-4">Initializing application...</div>
-        <div class="flex justify-around items-center mb-8 space-x-4">
+        <div id="loading-message" class="text-gray-400 mb-4">Initializing application...</div>
+        <div class="flex justify-around items-center mb-8 space-x-2 sm:space-x-4">
             <div class="flex flex-col items-center">
-                <span class="text-6xl font-extrabold text-blue-600" id="jeremiah-votes">0</span>
-                <span class="text-lg font-semibold text-gray-600">Team Jeremiah</span>
+                <span class="text-5xl sm:text-6xl font-extrabold text-blue-400" id="jeremiah-votes">0</span>
+                <span class="text-sm sm:text-lg font-semibold text-gray-400">Team Jeremiah</span>
             </div>
             <div class="flex flex-col items-center">
-                <span class="text-6xl font-extrabold text-red-600" id="conrad-votes">0</span>
-                <span class="text-lg font-semibold text-gray-600">Team Conrad</span>
+                <span class="text-5xl sm:text-6xl font-extrabold text-red-400" id="conrad-votes">0</span>
+                <span class="text-sm sm:text-lg font-semibold text-gray-400">Team Conrad</span>
             </div>
         </div>
 
@@ -102,41 +153,41 @@
             </button>
         </div>
 
-        <p id="message" class="text-lg text-gray-700 font-medium mb-4"></p>
+        <p id="message" class="text-sm sm:text-lg text-gray-200 font-medium mb-4"></p>
 
         <button id="reset-votes-btn"
-                class="mt-4 text-sm text-gray-500 hover:text-gray-700 underline transition duration-200" disabled>
+                class="mt-4 text-xs sm:text-sm text-gray-400 hover:text-gray-200 underline transition duration-200" disabled>
             Reset Votes
         </button>
     </div>
 
-    <div style="text-align: center; margin: 20px 0;">
-        <button 
-          onclick="window.location.href='https://projectlog-lab.github.io/TeamConrad-or-TeamJeremiah/'"
-          style="background-color: #10b981; color: white; padding: 12px 32px; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">
+    <div class="text-center my-4 sm:my-6 md:my-8">
+        <button
+          id="show-quiz-btn"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg sm:text-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
           Take the Quiz
         </button>
       </div>
 
-    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl text-center mt-8">
-        <h2 class="text-3xl font-bold mb-6 text-gray-800">Join the Discussion!</h2>
-        <p class="text-gray-700 leading-relaxed mb-4">
+    <div class="bg-gray-900/70 p-4 sm:p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-2xl text-center mt-8 text-white">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-6">Join the Discussion!</h2>
+        <p class="text-sm sm:text-base text-gray-200 leading-relaxed mb-4">
             Share your thoughts, theories, and why you're rooting for your team!
         </p>
 
         <div class="mb-6">
             <textarea id="comment-input"
-                      class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
+                      class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y text-black"
                       rows="3"
                       placeholder="Type your comment here..." disabled></textarea>
             <button id="submit-comment-btn"
-                    class="mt-3 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md" disabled>
+                    class="mt-3 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded-lg text-base sm:text-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md" disabled>
                 Submit Comment
             </button>
         </div>
 
-        <div id="comments-list" class="text-left space-y-4 max-h-96 overflow-y-auto p-2 border border-gray-200 rounded-lg bg-gray-50">
-            <p class="text-gray-500 text-center">No comments yet. Be the first to share your thoughts!</p>
+        <div id="comments-list" class="text-left space-y-4 max-h-96 overflow-y-auto p-2 border border-gray-200 rounded-lg bg-gray-800/50">
+            <p class="text-gray-400 text-center">No comments yet. Be the first to share your thoughts!</p>
         </div>
     </div>
 
@@ -147,6 +198,33 @@
         </div>
     </div>
 
+    <!-- Quiz HTML injected here -->
+    <div id="quiz-container">
+        <div class="quiz-content">
+            <span class="quiz-close-button" onclick="hideQuiz()">&times;</span>
+            <div id="start-screen">
+                <h1 class="text-3xl sm:text-4xl font-bold">The Summer I Turned Pretty Quiz</h1>
+                <p class="text-sm sm:text-base mt-2">Find out which brother is your match!</p>
+                <button onclick="startQuiz()" class="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-lg text-lg transition duration-300 ease-in-out">Start Quiz</button>
+            </div>
+
+            <div id="quiz-screen" style="display: none;">
+                <p id="question-text" class="text-lg sm:text-xl font-semibold"></p>
+                <div class="flex flex-col items-center mt-4">
+                    <button class="option-btn text-base sm:text-lg" onclick="chooseAnswer('a1')" id="btn-a1"></button>
+                    <button class="option-btn text-base sm:text-lg" onclick="chooseAnswer('a2')" id="btn-a2"></button>
+                    <button id="next-btn" onclick="nextQuestion()" class="mt-4 bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-6 rounded-lg text-base transition duration-300 ease-in-out" style="display: none;">Next</button>
+                </div>
+            </div>
+
+            <div id="result-screen" style="display: none;">
+                <h2 id="result-text" class="text-2xl sm:text-3xl font-bold"></h2>
+                <button onclick="retakeQuiz()" class="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-lg text-lg transition duration-300 ease-in-out">Retake Quiz</button>
+            </div>
+        </div>
+    </div>
+    <!-- End Quiz HTML -->
+
     <script type="module">
         // Firebase SDK imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -156,7 +234,6 @@
         // --- Firebase Configuration ---
         const YOUR_FIREBASE_PROJECT_ID = "voteforconnieorjere";
         const YOUR_FIREBASE_CONFIG = {
-            // This is the CORRECTED API key
             apiKey: "AIzaSyB08UOHeorjfJl5ntchI8tq47GxU2hJVYk",
             authDomain: "voteforconnieorjere.firebaseapp.com",
             projectId: "voteforconnieorjere",
@@ -183,7 +260,7 @@
             isAuthReady = ready;
             console.log(`Application readiness state changed: isAuthReady = ${isAuthReady}`);
             if (ready) {
-                loadingMessage.textContent = "Application is Ready!";
+                loadingMessage.textContent = "";
                 resetVotesBtn.disabled = false;
                 resetVotesBtn.classList.remove('opacity-50', 'cursor-not-allowed');
                 console.log("App ready: Reset button enabled.");
@@ -485,7 +562,7 @@
         function displayComments(comments) {
             commentsList.innerHTML = '';
             if (comments.length === 0) {
-                commentsList.innerHTML = '<p class="text-gray-500 text-center">No comments yet. Be the first to share your thoughts!</p>';
+                commentsList.innerHTML = '<p class="text-gray-400 text-center">No comments yet. Be the first to share your thoughts!</p>';
                 return;
             }
 
@@ -494,8 +571,7 @@
 
             comments.forEach(comment => {
                 const commentElement = document.createElement('div');
-                commentElement.className = 'bg-white p-3 rounded-lg shadow-sm mb-2';
-                const date = comment.timestamp ? new Date(comment.timestamp.seconds * 1000).toLocaleString() : 'Just now';
+                commentElement.className = 'bg-gray-800/50 p-3 rounded-lg shadow-sm mb-2 text-white';
 
                 let processedComment = comment.comment;
 
@@ -503,13 +579,13 @@
                     if (imageRegex.test(url)) {
                         return `<img src="${url}" alt="User submitted image" class="max-w-full h-auto rounded-lg my-2">`;
                     } else {
-                        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${url}</a>`;
+                        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">${url}</a>`;
                     }
                 });
 
                 commentElement.innerHTML = `
-                    <p class="text-sm text-gray-600 font-semibold mb-1">Anonymous <span class="text-gray-400 font-normal text-xs ml-2">${date}</span></p>
-                    <p class="text-gray-800 break-words">${processedComment}</p>
+                    <p class="text-sm text-gray-200 font-semibold mb-1">Anonymous</p>
+                    <p class="text-gray-200 break-words">${processedComment}</p>
                 `;
                 commentsList.appendChild(commentElement);
             });
@@ -581,6 +657,85 @@
         } else {
             console.error("Firebase 'auth' or 'db' objects are not initialized. Voting functionality disabled.");
             setAppReadyState(false);
+        }
+    </script>
+
+    <!-- Quiz Script Injected Here -->
+    <script>
+        const questions = [
+            { q: "Who’s your fave?", a1: "Conrad", a2: "Jeremiah" },
+            { q: "Pick the vibe", a1: "Chill & deep", a2: "Fun & loud" },
+            { q: "Choose a treat", a1: "Lemonade", a2: "Ice Cream" },
+            { q: "Better date?", a1: "Stargazing", a2: "Dancing" },
+            { q: "Belly belongs with?", a1: "Conrad 💙", a2: "Jeremiah 💛" },
+            { q: "Summer is for...", a1: "Love & drama", a2: "Laughs & sun" },
+            { q: "Pick a dress", a1: "Simple white", a2: "Bright floral" },
+            { q: "Convo or chaos?", a1: "Deep convo", a2: "Fun chaos" },
+            { q: "Song choice?", a1: "Invisible String", a2: "Cruel Summer" },
+            { q: "Last one! Your gut says?", a1: "Team Conrad", a2: "Team Jeremiah" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        document.getElementById('show-quiz-btn').addEventListener('click', function() {
+            document.getElementById('quiz-container').style.display = 'flex';
+        });
+
+        function hideQuiz() {
+            document.getElementById('quiz-container').style.display = 'none';
+        }
+
+        function startQuiz() {
+            // Re-initialize quiz state
+            currentQuestion = 0;
+            score = 0;
+
+            document.getElementById("start-screen").style.display = "none";
+            document.getElementById("quiz-screen").style.display = "block";
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById("question-text").textContent = (currentQuestion + 1) + ". " + q.q;
+            document.getElementById("btn-a1").textContent = q.a1;
+            document.getElementById("btn-a2").textContent = q.a2;
+            document.getElementById("next-btn").style.display = "none";
+        }
+
+        function chooseAnswer(answer) {
+            if (answer === "a2") {
+                score++;
+            }
+            document.getElementById("next-btn").style.display = "inline-block";
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quiz-screen").style.display = "none";
+            document.getElementById("result-screen").style.display = "block";
+            if (score >= 6) {
+                document.getElementById("result-text").textContent = "💛 You're Team Jeremiah! Bright, bubbly, and sweet!";
+            } else {
+                document.getElementById("result-text").textContent = "💙 You're Team Conrad! Calm, deep, and romantic.";
+            }
+        }
+
+        function retakeQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById("result-screen").style.display = "none";
+            document.getElementById("quiz-screen").style.display = "block";
+            showQuestion();
         }
     </script>
 </body>
